@@ -50,6 +50,32 @@ header p {
     color: #cc0000;
 }
 
+#introduction {
+    margin-bottom: 2rem;
+}
+
+#introduction p {
+    font-size: 0.9rem;
+    color: var(--text);
+    max-width: 800px;
+    line-height: 1.6;
+    margin: 0;
+}
+
+#introduction a {
+    display: inline-block;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+    transition: all 0.2s ease;
+}
+
+#introduction a:hover {
+    border-color: var(--text);
+    color: var(--muted);
+}
+
 main {
     max-width: 1000px;
     margin: 0 auto;
