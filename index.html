@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oncology Benchmark</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Oncology Benchmark <span id="status">Live</span></h1>
+        <p>Real-time results from the team</p>
+    </header>
+
+    <main>
+        <section id="leaderboard">
+            <div id="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>User</th>
+                            <th>Model</th>
+                            <th>Ceviche</th>
+                            <th>MixSeq</th>
+                            <th>SciPlex</th>
+                            <th>TPW-hi</th>
+                            <th>Freiburg</th>
+                        </tr>
+                    </thead>
+                    <tbody id="results-body">
+                        <!-- Rows injected here by app.js -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Authors: Abdullahi Farah, Pantelis Rempakos, Tingan kuo, Álvaro Menéndez</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pocketbase/0.21.1/pocketbase.umd.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
