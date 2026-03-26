@@ -8,7 +8,7 @@ async function updateDashboard() {
     try {
         // Fetch 50 most recent records
         const records = await pb.collection(COLLECTION).getList(1, 50, {
-            sort: '-created',
+            sort: '-mean_score',
         });
 
         let rowsHtml = '';
@@ -29,7 +29,8 @@ async function updateDashboard() {
                     <td>${timestamp}</td>
                     <td>${run.user || "Unknown"}</td>
                     <td>${run.model || "Unknown"}</td>
-                    <td><strong>${fmt(run.ceviche)}</strong></td>
+                    <td><strong>${fmt(run.mean_score)}</strong></td>
+                    <td>${fmt(run.ceviche)}</td>
                     <td>${fmt(run.mixseq)}</td>
                     <td>${fmt(run.sciplex)}</td>
                     <td>${fmt(run.tpw_hi)}</td>
