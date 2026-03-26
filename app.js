@@ -55,3 +55,12 @@ pb.collection(COLLECTION).subscribe('*', () => {
     console.log('Realtime event received!');
     updateDashboard();
 });
+
+async function drawPlots() {
+    const list = await pb.collection('dataset_distributions').getFullList();
+    const el = document.getElementById('plots');
+    el.innerHTML = list.map(r => `<div id="p-${r.id}"></div>`).join('');
+    list.forEach(r => Plotly.newPlot(`p-${r.id}`, r.plotly_json.data, r.plotly_json.layout));
+}
+drawPlots();
+pb.collection('dataset_distributions').subscribe('*', drawPlots);

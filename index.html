@@ -44,6 +44,9 @@
                     </tbody>
                 </table>
             </div>
+        <section id="insights" style="max-width:1000px;margin:40px auto;padding:0 1.5rem;">
+            <h2 style="font-size:1rem;font-weight:600;margin-bottom:1.5rem;letter-spacing:-0.01em;">Dataset Distributions</h2>
+            <div id="plots" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(450px,1fr));gap:30px;"></div>
         </section>
     </main>
 
@@ -52,6 +55,7 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pocketbase/0.21.1/pocketbase.umd.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
     <script src="app.js"></script>
 </body>
 
