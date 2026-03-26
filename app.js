@@ -11,11 +11,32 @@ async function updateDashboard() {
             sort: '-mean_score',
         });
 
+        // Heatmap ranges
+        const columns = ['mean_score', 'ceviche', 'mixseq', 'sciplex', 'tpw_hi', 'freiburg'];
+        const ranges = {};
+        columns.forEach(col => {
+            const vals = records.items.map(r => Number(r[col])).filter(v => !isNaN(v));
+            ranges[col] = vals.length > 0
+                ? { min: Math.min(...vals), max: Math.max(...vals) }
+                : { min: 0, max: 0 };
+        });
+
+        const getStyle = (val, col) => {
+            const range = ranges[col];
+            const num = Number(val);
+            if (isNaN(num) || !range || range.max === range.min) return "";
+            const ratio = (num - range.min) / (range.max - range.min);
+            const hue = ratio * 120; // 0=red, 120=green
+            return `style="background-color: hsla(${hue}, 70%, 50%, 0.15)"`;
+        };
+
         let rowsHtml = '';
         records.items.forEach(run => {
-            const fmt = (val) => {
+            const fmt = (val, col) => {
                 const num = Number(val);
-                return !isNaN(num) && val !== null && val !== "" ? num.toFixed(4) : "0.0000";
+                const isMax = col && ranges[col] && num === ranges[col].max && ranges[col].max !== ranges[col].min;
+                const formatted = !isNaN(num) && val !== null && val !== "" ? num.toFixed(3) : "0.000";
+                return isMax ? `<strong>${formatted}</strong>` : formatted;
             };
 
             const timestamp = new Date(run.created).toLocaleString(undefined, {
@@ -29,12 +50,12 @@ async function updateDashboard() {
                     <td>${timestamp}</td>
                     <td>${run.user || "Unknown"}</td>
                     <td>${run.model || "Unknown"}</td>
-                    <td><strong>${fmt(run.mean_score)}</strong></td>
-                    <td>${fmt(run.ceviche)}</td>
-                    <td>${fmt(run.mixseq)}</td>
-                    <td>${fmt(run.sciplex)}</td>
-                    <td>${fmt(run.tpw_hi)}</td>
-                    <td>${fmt(run.freiburg)}</td>
+                    <td ${getStyle(run.mean_score, 'mean_score')}>${fmt(run.mean_score, 'mean_score')}</td>
+                    <td ${getStyle(run.ceviche, 'ceviche')}>${fmt(run.ceviche, 'ceviche')}</td>
+                    <td ${getStyle(run.mixseq, 'mixseq')}>${fmt(run.mixseq, 'mixseq')}</td>
+                    <td ${getStyle(run.sciplex, 'sciplex')}>${fmt(run.sciplex, 'sciplex')}</td>
+                    <td ${getStyle(run.tpw_hi, 'tpw_hi')}>${fmt(run.tpw_hi, 'tpw_hi')}</td>
+                    <td ${getStyle(run.freiburg, 'freiburg')}>${fmt(run.freiburg, 'freiburg')}</td>
                 </tr>`;
         });
 
