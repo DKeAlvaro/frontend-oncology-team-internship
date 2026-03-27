@@ -78,10 +78,48 @@ pb.collection(COLLECTION).subscribe('*', () => {
 });
 
 async function drawPlots() {
-    const list = await pb.collection('dataset_distributions').getFullList();
-    const el = document.getElementById('plots');
-    el.innerHTML = list.map(r => `<div id="p-${r.id}"></div>`).join('');
-    list.forEach(r => Plotly.newPlot(`p-${r.id}`, r.plotly_json.data, r.plotly_json.layout, { responsive: true }));
+    // 1. Dataset Distributions
+    const distributionList = await pb.collection('dataset_distributions').getFullList();
+    const distEl = document.getElementById('plots');
+    
+    // 2. Evaluation Scatter Plots (Predicted vs Real)
+    const evalList = await pb.collection('evaluation_plots').getFullList();
+    const evalEl = document.getElementById('eval-plots');
+    if (!evalEl) {
+         const newSection = document.createElement('div');
+         newSection.id = 'eval-plots';
+         newSection.style.display = 'grid';
+         newSection.style.gridTemplateColumns = 'repeat(auto-fit, minmax(min(100%, 450px), 1fr))';
+         newSection.style.gap = '30px';
+         newSection.style.marginTop = '40px';
+         distEl.parentElement.appendChild(newSection);
+    }
+    const targetEvalEl = document.getElementById('eval-plots');
+
+    // 3. Input Projections (PCA)
+    const inputList = await pb.collection('input_projections').getFullList();
+    const inputEl = document.getElementById('input-plots');
+    if (!inputEl) {
+         const inputSection = document.createElement('div');
+         inputSection.id = 'input-plots';
+         inputSection.style.marginTop = '40px';
+         distEl.parentElement.insertBefore(inputSection, distEl); // Put it before distributions
+    }
+    const targetInputEl = document.getElementById('input-plots');
+
+    // Render Distributions
+    distEl.innerHTML = distributionList.map(r => `<div id="p-${r.id}" class="plot-card"></div>`).join('');
+    distributionList.forEach(r => Plotly.newPlot(`p-${r.id}`, r.plotly_json.data, r.plotly_json.layout, { responsive: true }));
+
+    // Render Evaluations
+    targetEvalEl.innerHTML = '<h2 style="grid-column: 1 / -1; font-size:1rem; font-weight:600; margin-top:60px; margin-bottom:1.5rem; letter-spacing:-0.01em;">Model Evaluation (Predicted vs Real)</h2>' + evalList.map(r => `<div id="e-${r.id}" class="plot-card"></div>`).join('');
+    evalList.forEach(r => Plotly.newPlot(`e-${r.id}`, r.plotly_json.data, r.plotly_json.layout, { responsive: true }));
+
+    // Render Input Projections
+    targetInputEl.innerHTML = '<h2 style="font-size:1rem; font-weight:600; margin-bottom:1.5rem; letter-spacing:-0.01em;">Input Space Visualization (PCA)</h2>' + inputList.map(r => `<div id="i-${r.id}" class="plot-card"></div>`).join('');
+    inputList.forEach(r => Plotly.newPlot(`i-${r.id}`, r.plotly_json.data, r.plotly_json.layout, { responsive: true }));
 }
 drawPlots();
 pb.collection('dataset_distributions').subscribe('*', drawPlots);
+pb.collection('evaluation_plots').subscribe('*', drawPlots);
+pb.collection('input_projections').subscribe('*', drawPlots);
