@@ -108,7 +108,7 @@ async function drawPlots() {
     const targetInputEl = document.getElementById('input-plots');
 
     // Render Distributions
-    distEl.innerHTML = distributionList.map(r => `<div id="p-${r.id}" class="plot-card"></div>`).join('');
+    distEl.innerHTML = '<h2 style="grid-column: 1 / -1; font-size:1rem; font-weight:600; margin-bottom:1.5rem; letter-spacing:-0.01em;">Dataset Distributions (Target Labels)</h2>' + distributionList.map(r => `<div id="p-${r.id}" class="plot-card"></div>`).join('');
     distributionList.forEach(r => Plotly.newPlot(`p-${r.id}`, r.plotly_json.data, r.plotly_json.layout, { responsive: true }));
 
     // Render Evaluations
@@ -116,7 +116,7 @@ async function drawPlots() {
     evalList.forEach(r => Plotly.newPlot(`e-${r.id}`, r.plotly_json.data, r.plotly_json.layout, { responsive: true }));
 
     // Render Input Projections
-    targetInputEl.innerHTML = '<h2 style="font-size:1rem; font-weight:600; margin-bottom:1.5rem; letter-spacing:-0.01em;">Input Space Visualization (PCA)</h2>' + inputList.map(r => `<div id="i-${r.id}" class="plot-card"></div>`).join('');
+    targetInputEl.innerHTML = '<h2 style="font-size:1rem; font-weight:600; margin-bottom:1.5rem; letter-spacing:-0.01em;">Input Space Visualization</h2>' + inputList.map(r => `<div id="i-${r.id}" class="plot-card"></div>`).join('');
     inputList.forEach(r => Plotly.newPlot(`i-${r.id}`, r.plotly_json.data, r.plotly_json.layout, { responsive: true }));
 }
 drawPlots();
