@@ -50,6 +50,7 @@ async function updateDashboard() {
                     <td>${timestamp}</td>
                     <td>${run.user || "Unknown"}</td>
                     <td>${run.model || "Unknown"}</td>
+                    <td>${run.strategy || "-"}</td>
                     <td ${getStyle(run.mean_score, 'mean_score')}>${fmt(run.mean_score, 'mean_score')}</td>
                     <td ${getStyle(run.ceviche, 'ceviche')}>${fmt(run.ceviche, 'ceviche')}</td>
                     <td ${getStyle(run.mixseq, 'mixseq')}>${fmt(run.mixseq, 'mixseq')}</td>
