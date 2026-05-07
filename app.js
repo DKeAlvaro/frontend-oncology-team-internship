@@ -12,7 +12,7 @@ async function updateDashboard() {
         });
 
         // Heatmap ranges
-        const columns = ['mean_score', 'ceviche', 'mixseq', 'sciplex', 'tpw_hi', 'freiburg'];
+        const columns = ['ceviche', 'mixseq', 'sciplex', 'tpw_hi', 'freiburg'];
         const ranges = {};
         columns.forEach(col => {
             const vals = records.items.map(r => Number(r[col])).filter(v => !isNaN(v));
@@ -51,7 +51,6 @@ async function updateDashboard() {
                     <td>${run.user || "Unknown"}</td>
                     <td>${run.model || "Unknown"}</td>
                     <td>${run.strategy || "-"}</td>
-                    <td ${getStyle(run.mean_score, 'mean_score')}>${fmt(run.mean_score, 'mean_score')}</td>
                     <td ${getStyle(run.ceviche, 'ceviche')}>${fmt(run.ceviche, 'ceviche')}</td>
                     <td ${getStyle(run.mixseq, 'mixseq')}>${fmt(run.mixseq, 'mixseq')}</td>
                     <td ${getStyle(run.sciplex, 'sciplex')}>${fmt(run.sciplex, 'sciplex')}</td>
